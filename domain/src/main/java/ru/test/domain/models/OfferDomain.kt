@@ -1,6 +1,6 @@
 package ru.test.domain.models
 
-class OfferDomain (
+data class OfferDomain (
     val id: String?,
     val title: String,
     val button: ButtonDomain?,
