@@ -17,7 +17,7 @@ interface VacancyOnInteractionListener {
     fun onFavoriteIcon(id: UUID) {}
 }
 
-class VacancyAdapter(
+class VacancyWithButtonAdapter(
     private val onInteractionListener: VacancyOnInteractionListener,
     private var vacancyNumber: Int = 0
 ) : ListAdapter<ListItem, RecyclerView.ViewHolder>(VacancyDiffCallback()) {
@@ -85,8 +85,6 @@ class VacancyViewHolder(
 
                 viewedBy.text = peopleWatchingText
             }
-
-
 
             title.text = vacancy.title
             salary.text = vacancy.salary.full

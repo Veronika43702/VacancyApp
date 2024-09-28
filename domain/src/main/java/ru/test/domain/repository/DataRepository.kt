@@ -8,6 +8,7 @@ import java.util.UUID
 interface DataRepository {
     fun getAllOffers(): LiveData<List<OfferDomain>>
     fun getAllVacancies(): LiveData<List<VacancyDomain>>
+    fun getFavouriteVacancies(): LiveData<List<VacancyDomain>>
 
     suspend fun getDataFromApi()
     suspend fun changeFavouriteState(id: UUID)

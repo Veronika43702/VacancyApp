@@ -46,12 +46,13 @@ class OfferViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(offer: OfferDomain) {
         binding.apply {
+            // установка цвета и иконки в зависимости от id
             when (offer.id) {
                 "near_vacancies" -> {
                     icon.visibility = View.VISIBLE
                     setCircleBackgroundColor(icon, R.color.DarkBlue)
                     // TODO Отсутствует иконка в Figma
-                    //  icon.setImageResource(R.drawable.)
+                    //  icon.setImageResource(R.drawable.?)
                 }
 
                 "level_up_resume" -> {
@@ -71,6 +72,7 @@ class OfferViewHolder(
                 }
             }
 
+            // установка количества строк заголовка и button.text в зависимости от наличия поля button
             title.text = offer.title.trim()
             if (offer.button != null) {
                 title.setLines(2)
@@ -96,6 +98,7 @@ class OfferDiffCallback : DiffUtil.ItemCallback<OfferDomain>() {
     }
 }
 
+// изменение цвета иконки
 fun setCircleBackgroundColor(imageView: ImageView, colorResId: Int) {
     val drawable = imageView.background as GradientDrawable
     drawable.setColor(ContextCompat.getColor(imageView.context, colorResId))

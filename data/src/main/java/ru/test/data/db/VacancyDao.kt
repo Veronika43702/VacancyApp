@@ -13,6 +13,9 @@ interface VacancyDao {
     @Query("SELECT * FROM vacancies_table")
     fun getAll(): LiveData<List<VacancyEntity>>
 
+    @Query("SELECT * FROM vacancies_table WHERE isFavorite = 1")
+    fun getFavourite(): LiveData<List<VacancyEntity>>
+
     @Query("SELECT * FROM vacancies_table WHERE id = :id")
     fun getById(id: UUID): VacancyEntity
 

@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import ru.test.vacancies.databinding.FragmentResponsesBinding
 
 class ResponsesFragment : Fragment() {
@@ -22,16 +20,11 @@ class ResponsesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val responsesViewModel =
-            ViewModelProvider(this).get(ResponsesViewModel::class.java)
 
         _binding = FragmentResponsesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        responsesViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        binding.text.text = "This is responses fragment"
         return root
     }
 

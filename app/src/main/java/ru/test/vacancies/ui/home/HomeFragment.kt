@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ru.test.domain.models.VacancyDomain
@@ -15,14 +16,14 @@ import ru.test.vacancies.R
 import ru.test.vacancies.adapter.ListItem
 import ru.test.vacancies.adapter.OfferAdapter
 import ru.test.vacancies.adapter.OfferOnInteractionListener
-import ru.test.vacancies.adapter.VacancyAdapter
+import ru.test.vacancies.adapter.VacancyWithButtonAdapter
 import ru.test.vacancies.adapter.VacancyOnInteractionListener
 import ru.test.vacancies.databinding.FragmentHomeBinding
 import java.util.UUID
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
     private var _binding: FragmentHomeBinding? = null
     private var isExpanded = false
 
@@ -55,7 +56,7 @@ class HomeFragment : Fragment() {
 
 
         // список Vacancy
-        val adapterVacancy = VacancyAdapter(object : VacancyOnInteractionListener {
+        val adapterVacancy = VacancyWithButtonAdapter(object : VacancyOnInteractionListener {
             override fun onRoot(id: UUID) {
                // TODO
             }
@@ -109,7 +110,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setInitialListWithButton(
-        adapterVacancy: VacancyAdapter,
+        adapterVacancy: VacancyWithButtonAdapter,
         vacancies: List<VacancyDomain>,
     ) {
         val initialList = vacancies.take(3).map { ListItem.VacancyItem(it) } +

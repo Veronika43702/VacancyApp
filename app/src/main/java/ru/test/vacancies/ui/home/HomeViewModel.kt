@@ -15,22 +15,29 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: DataRepository
 ): ViewModel() {
+    // полный список рекомендаций (offer)
     val offers: LiveData<List<OfferDomain>> = repository.getAllOffers()
+    // полный список вакансий
     val vacancies: LiveData<List<VacancyDomain>> = repository.getAllVacancies()
+    // список избранных вакансий
+    val favouriteVacancies: LiveData<List<VacancyDomain>> = repository.getFavouriteVacancies()
 
     init {
         getData()
     }
 
+    // получение данных по сети
     private fun getData() {
         viewModelScope.launch {
             try {
                 repository.getDataFromApi()
             } catch (_: Exception) {
+
             }
         }
     }
 
+    // изменение поля isFavorite по id вакансии
     fun changeFavouriteStateById(id: UUID) {
         viewModelScope.launch {
             try {

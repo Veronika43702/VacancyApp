@@ -2,18 +2,16 @@ package ru.test.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import retrofit2.Response
 import ru.test.data.api.ApiService
 import ru.test.data.db.OfferDao
 import ru.test.data.db.VacancyDao
+import ru.test.data.entity.OfferEntity
+import ru.test.data.entity.VacancyEntity
 import ru.test.data.mapper.OfferMapper
 import ru.test.data.mapper.VacancyMapper
 import ru.test.domain.models.OfferDomain
-import ru.test.data.entity.OfferEntity
 import ru.test.domain.models.VacancyDomain
-import ru.test.data.entity.VacancyEntity
 import ru.test.domain.repository.DataRepository
-import java.io.IOException
 import java.util.UUID
 import javax.inject.Inject
 
@@ -32,6 +30,12 @@ class DataRepositoryImpl @Inject constructor(
 
     override fun getAllVacancies(): LiveData<List<VacancyDomain>> {
         return vacancyDao.getAll().map { entities ->
+            vacancyMapper.mapToDomainList(entities)
+        }
+    }
+
+    override fun getFavouriteVacancies(): LiveData<List<VacancyDomain>> {
+        return vacancyDao.getFavourite().map { entities ->
             vacancyMapper.mapToDomainList(entities)
         }
     }

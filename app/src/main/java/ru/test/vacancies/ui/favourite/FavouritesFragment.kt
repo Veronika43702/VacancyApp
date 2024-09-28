@@ -4,12 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import dagger.hilt.android.AndroidEntryPoint
+import ru.test.vacancies.R
+import ru.test.vacancies.adapter.FavouriteVacancyAdapter
+import ru.test.vacancies.adapter.FavouriteVacancyOnInteractionListener
 import ru.test.vacancies.databinding.FragmentFavouritesBinding
+import ru.test.vacancies.ui.home.HomeViewModel
+import java.util.UUID
 
+@AndroidEntryPoint
 class FavouritesFragment : Fragment() {
+    private val viewModel: HomeViewModel by activityViewModels()
 
     private var _binding: FragmentFavouritesBinding? = null
 
@@ -22,16 +29,29 @@ class FavouritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val favoritesViewModel =
-            ViewModelProvider(this).get(FavouritesViewModel::class.java)
 
         _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        favoritesViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        // список Favourite Vacancy
+        val adapterVacancy = FavouriteVacancyAdapter(object : FavouriteVacancyOnInteractionListener {
+            override fun onFavoriteIcon(id: UUID) {
+                // изменение поля isFavorite по id вакансии
+                viewModel.changeFavouriteStateById(id)
+            }
+        })
+
+        binding.favouriteVacancyRecyclerView.adapter = adapterVacancy
+        viewModel.favouriteVacancies.observe(viewLifecycleOwner) { vacancies ->
+            adapterVacancy.submitList(vacancies)
+
+            binding.favouriteVacancyNumber.text = context?.resources?.getQuantityString(
+                R.plurals.vacancies,
+                vacancies.size,
+                vacancies.size
+            )
         }
+
         return root
     }
 
