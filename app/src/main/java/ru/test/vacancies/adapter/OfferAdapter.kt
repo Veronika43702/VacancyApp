@@ -14,12 +14,12 @@ import ru.test.domain.models.OfferDomain
 import ru.test.vacancies.R
 import ru.test.vacancies.databinding.CardOfferBinding
 
-interface OnInteractionListener {
+interface OfferOnInteractionListener {
     fun onRoot(link: String) {}
 }
 
 class OfferAdapter(
-    private val onInteractionListener: OnInteractionListener,
+    private val onInteractionListener: OfferOnInteractionListener,
 ) : ListAdapter<OfferDomain, OfferViewHolder>(OfferDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfferViewHolder {
         val binding =
@@ -42,7 +42,7 @@ class OfferAdapter(
 
 class OfferViewHolder(
     private val binding: CardOfferBinding,
-    private val onInteractionListener: OnInteractionListener
+    private val onInteractionListener: OfferOnInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(offer: OfferDomain) {
         binding.apply {

@@ -18,4 +18,7 @@ interface VacancyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(entities: List<VacancyEntity>)
+
+    @Query("UPDATE vacancies_table SET isFavorite = NOT isFavorite WHERE id = :id")
+    suspend fun changeFavouriteState(id: UUID)
 }

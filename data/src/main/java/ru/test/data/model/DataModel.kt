@@ -40,7 +40,7 @@ data class Address(
 )
 
 data class Experience(
-    val previousText: String? = null,
+    val previewText: String? = null,
     val text: String,
 )
 

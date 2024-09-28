@@ -54,13 +54,13 @@ class AddressMapper @Inject constructor() {
 class ExperienceMapper @Inject constructor() {
     fun mapToDomain(entity: Experience): ru.test.domain.models.ExperienceDomain {
         return entity.let {
-            ru.test.domain.models.ExperienceDomain(it.previousText, it.text)
+            ru.test.domain.models.ExperienceDomain(it.previewText, it.text)
         }
     }
 
     fun mapToEntity(domain: ru.test.domain.models.ExperienceDomain): Experience {
         return domain.let {
-            Experience(it.previousText, it.text)
+            Experience(it.previewText, it.text)
         }
     }
 }

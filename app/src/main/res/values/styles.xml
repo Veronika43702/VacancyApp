@@ -13,6 +13,7 @@
     <style name="Title3" >
         <item name="android:fontFamily">@font/sf_pro_display_medium</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="Title4" >

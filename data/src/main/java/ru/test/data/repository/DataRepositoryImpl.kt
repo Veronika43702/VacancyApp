@@ -2,6 +2,7 @@ package ru.test.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import retrofit2.Response
 import ru.test.data.api.ApiService
 import ru.test.data.db.OfferDao
 import ru.test.data.db.VacancyDao
@@ -12,6 +13,8 @@ import ru.test.data.entity.OfferEntity
 import ru.test.domain.models.VacancyDomain
 import ru.test.data.entity.VacancyEntity
 import ru.test.domain.repository.DataRepository
+import java.io.IOException
+import java.util.UUID
 import javax.inject.Inject
 
 class DataRepositoryImpl @Inject constructor(
@@ -52,6 +55,14 @@ class DataRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
             throw Exception(e)
+        }
+    }
+
+    override suspend fun changeFavouriteState(id: UUID) {
+        try {
+            vacancyDao.changeFavouriteState(id)
+        } catch (e: Exception) {
+            throw Exception()
         }
     }
 }

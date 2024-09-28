@@ -27,7 +27,7 @@ data class AddressDomain(
 )
 
 data class ExperienceDomain(
-    val previousText: String? = null,
+    val previewText: String? = null,
     val text: String,
 )
 
