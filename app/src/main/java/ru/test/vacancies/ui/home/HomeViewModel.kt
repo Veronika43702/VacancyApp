@@ -1,13 +1,32 @@
 package ru.test.vacancies.ui.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import ru.test.domain.models.OfferDomain
+import ru.test.domain.models.VacancyDomain
+import ru.test.domain.repository.DataRepository
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: DataRepository
+): ViewModel() {
+    val offers: LiveData<List<OfferDomain>> = repository.getAllOffers()
+    val vacancies: LiveData<List<VacancyDomain>> = repository.getAllVacancies()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    init {
+        getData()
     }
-    val text: LiveData<String> = _text
+
+    private fun getData() {
+        viewModelScope.launch {
+            try {
+                repository.getDataFromApi()
+            } catch (_: Exception) {
+            }
+        }
+    }
 }

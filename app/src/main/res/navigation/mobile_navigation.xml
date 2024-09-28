@@ -12,14 +12,27 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_favorites"
-        android:name="ru.test.vacancies.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_favourites"
+        android:name="ru.test.vacancies.ui.favourite.FavouritesFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_favourites" />
 
     <fragment
         android:id="@+id/navigation_responses"
-        android:name="ru.test.vacancies.ui.notifications.NotificationsFragment"
+        android:name="ru.test.vacancies.ui.responses.ResponsesFragment"
         android:label="@string/title_responses"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_responses" />
+
+    <fragment
+        android:id="@+id/navigation_messages"
+        android:name="ru.test.vacancies.ui.messages.MessagesFragment"
+        android:label="@string/title_messages"
+        tools:layout="@layout/fragment_messages" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="ru.test.vacancies.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
 </navigation>
