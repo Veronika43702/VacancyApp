@@ -29,13 +29,13 @@ class HomeFragment : Fragment() {
 
         viewModel.offers.observe(viewLifecycleOwner) { offers ->
             if (offers.isNotEmpty()) {
-                println("offer: ${offers.first().title}")
+
             }
         }
 
         viewModel.vacancies.observe(viewLifecycleOwner) { vacancies ->
             if (vacancies.isNotEmpty()) {
-                println("vac: ${vacancies.first().id}")
+
             }
         }
 
