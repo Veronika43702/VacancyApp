@@ -7,20 +7,28 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.test.domain.models.OfferDomain
 import ru.test.domain.models.VacancyDomain
-import ru.test.domain.repository.DataRepository
+import ru.test.domain.usercase.ChangeFavouriteUseCase
+import ru.test.domain.usercase.GetAllOffersUseCase
+import ru.test.domain.usercase.GetAllVacanciesUseCase
+import ru.test.domain.usercase.GetDataFromApiUseCase
+import ru.test.domain.usercase.GetFavouriteVacanciesUseCase
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: DataRepository
+    private val getAllVacanciesUseCase: GetAllVacanciesUseCase,
+    private val getFavouriteVacanciesUseCase: GetFavouriteVacanciesUseCase,
+    private val getAllOffersUseCase: GetAllOffersUseCase,
+    private val getDataFromApiUseCase: GetDataFromApiUseCase,
+    private val changeFavouriteUseCase: ChangeFavouriteUseCase,
 ): ViewModel() {
     // полный список рекомендаций (offer)
-    val offers: LiveData<List<OfferDomain>> = repository.getAllOffers()
+    val offers: LiveData<List<OfferDomain>> = getAllOffersUseCase()
     // полный список вакансий
-    val vacancies: LiveData<List<VacancyDomain>> = repository.getAllVacancies()
+    val vacancies: LiveData<List<VacancyDomain>> = getAllVacanciesUseCase()
     // список избранных вакансий
-    val favouriteVacancies: LiveData<List<VacancyDomain>> = repository.getFavouriteVacancies()
+    val favouriteVacancies: LiveData<List<VacancyDomain>> = getFavouriteVacanciesUseCase()
 
     init {
         getData()
@@ -30,7 +38,7 @@ class HomeViewModel @Inject constructor(
     private fun getData() {
         viewModelScope.launch {
             try {
-                repository.getDataFromApi()
+                getDataFromApiUseCase()
             } catch (_: Exception) {
 
             }
@@ -41,7 +49,7 @@ class HomeViewModel @Inject constructor(
     fun changeFavouriteStateById(id: UUID) {
         viewModelScope.launch {
             try {
-                repository.changeFavouriteState(id)
+                changeFavouriteUseCase(id)
             } catch (_: Exception) {
 
             }

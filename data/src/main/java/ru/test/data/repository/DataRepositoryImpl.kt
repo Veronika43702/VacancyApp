@@ -7,8 +7,8 @@ import ru.test.data.db.OfferDao
 import ru.test.data.db.VacancyDao
 import ru.test.data.entity.OfferEntity
 import ru.test.data.entity.VacancyEntity
-import ru.test.data.mapper.OfferMapper
-import ru.test.data.mapper.VacancyMapper
+import ru.test.domain.mapper.OfferMapper
+import ru.test.domain.mapper.VacancyMapper
 import ru.test.domain.models.OfferDomain
 import ru.test.domain.models.VacancyDomain
 import ru.test.domain.repository.DataRepository
@@ -19,8 +19,8 @@ class DataRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val offerDao: OfferDao,
     private val vacancyDao: VacancyDao,
-    private val offerMapper: OfferMapper,
-    private val vacancyMapper: VacancyMapper,
+    private val offerMapper: OfferMapper<OfferEntity>,
+    private val vacancyMapper: VacancyMapper<VacancyEntity>,
 ) : DataRepository {
     override fun getAllOffers(): LiveData<List<OfferDomain>> {
         return offerDao.getAll().map { entities ->
