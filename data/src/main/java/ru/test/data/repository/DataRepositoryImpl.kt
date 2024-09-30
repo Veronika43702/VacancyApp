@@ -1,7 +1,7 @@
 package ru.test.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ru.test.data.api.ApiService
 import ru.test.data.db.OfferDao
 import ru.test.data.db.VacancyDao
@@ -22,19 +22,19 @@ class DataRepositoryImpl @Inject constructor(
     private val offerMapper: OfferMapper<OfferEntity>,
     private val vacancyMapper: VacancyMapper<VacancyEntity>,
 ) : DataRepository {
-    override fun getAllOffers(): LiveData<List<OfferDomain>> {
+    override fun getAllOffers(): Flow<List<OfferDomain>> {
         return offerDao.getAll().map { entities ->
             offerMapper.mapToDomainList(entities)
         }
     }
 
-    override fun getAllVacancies(): LiveData<List<VacancyDomain>> {
+    override fun getAllVacancies(): Flow<List<VacancyDomain>> {
         return vacancyDao.getAll().map { entities ->
             vacancyMapper.mapToDomainList(entities)
         }
     }
 
-    override fun getFavouriteVacancies(): LiveData<List<VacancyDomain>> {
+    override fun getFavouriteVacancies(): Flow<List<VacancyDomain>> {
         return vacancyDao.getFavourite().map { entities ->
             vacancyMapper.mapToDomainList(entities)
         }

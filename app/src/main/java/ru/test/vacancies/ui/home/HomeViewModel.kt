@@ -2,6 +2,7 @@ package ru.test.vacancies.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,11 +25,11 @@ class HomeViewModel @Inject constructor(
     private val changeFavouriteUseCase: ChangeFavouriteUseCase,
 ): ViewModel() {
     // полный список рекомендаций (offer)
-    val offers: LiveData<List<OfferDomain>> = getAllOffersUseCase()
+    val offers: LiveData<List<OfferDomain>> = getAllOffersUseCase().asLiveData()
     // полный список вакансий
-    val vacancies: LiveData<List<VacancyDomain>> = getAllVacanciesUseCase()
+    val vacancies: LiveData<List<VacancyDomain>> = getAllVacanciesUseCase().asLiveData()
     // список избранных вакансий
-    val favouriteVacancies: LiveData<List<VacancyDomain>> = getFavouriteVacanciesUseCase()
+    val favouriteVacancies: LiveData<List<VacancyDomain>> = getFavouriteVacanciesUseCase().asLiveData()
 
     init {
         getData()
