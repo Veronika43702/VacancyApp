@@ -23,4 +23,3 @@ rootProject.name = "Vacancies"
 include(":app")
 include(":data")
 include(":domain")
-include(":lib")
