@@ -25,6 +25,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private var _binding: FragmentHomeBinding? = null
     private var isExpanded = false
+    private var isFavoriteChanged = false
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -61,13 +62,12 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFavoriteIcon(id: UUID) {
+                isFavoriteChanged = true
                 viewModel.changeFavouriteStateById(id)
-
             }
         })
         binding.vacancyRecyclerView.adapter = adapterVacancy
         viewModel.vacancies.observe(viewLifecycleOwner) { vacancies ->
-
             binding.vacancyNumber.text = context?.resources?.getQuantityString(
                 R.plurals.vacancies,
                 vacancies.size,
@@ -76,18 +76,22 @@ class HomeFragment : Fragment() {
 
             adapterVacancy.setTotalVacancies(vacancies.size)
 
-            if (!isExpanded) {
-                changeVisibility(true)
-                setInitialListWithButton(adapterVacancy, vacancies)
-            } else {
-                // Показываются все вакансии
-                adapterVacancy.submitList(vacancies.map { ListItem.VacancyItem(it) })
+            if (!isFavoriteChanged) {
+                if (!isExpanded) {
+                    changeVisibility(true)
+                    setInitialListWithButton(adapterVacancy, vacancies)
+                } else {
+                    // Показываются все вакансии
+                    adapterVacancy.submitList(vacancies.map { ListItem.VacancyItem(it) })
+                }
             }
 
             binding.backIcon.setOnClickListener {
                 changeVisibility(true)
                 setInitialListWithButton(adapterVacancy, vacancies)
             }
+
+            isFavoriteChanged = false
         }
 
         return root

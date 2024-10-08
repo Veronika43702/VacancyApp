@@ -19,7 +19,7 @@ interface VacancyOnInteractionListener {
 
 class VacancyWithButtonAdapter(
     private val onInteractionListener: VacancyOnInteractionListener,
-    private var vacancyNumber: Int = 0
+    private var vacancyNumber: Int = 0,
 ) : ListAdapter<ListItem, RecyclerView.ViewHolder>(VacancyDiffCallback()) {
     companion object {
         private const val VIEW_TYPE_VACANCY = 0
@@ -36,13 +36,17 @@ class VacancyWithButtonAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_VACANCY -> {
-                val binding = CardVacancyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding =
+                    CardVacancyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 VacancyViewHolder(binding, onInteractionListener)
             }
+
             VIEW_TYPE_BUTTON -> {
-                val binding = ButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding =
+                    ButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ButtonViewHolder(binding)
             }
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
@@ -53,9 +57,22 @@ class VacancyWithButtonAdapter(
                 val vacancyItem = getItem(position) as ListItem.VacancyItem
                 holder.bind(vacancyItem.vacancy)
             }
+
             is ButtonViewHolder -> {
                 val buttonItem = getItem(position) as ListItem.ButtonItem
                 holder.bind(buttonItem, vacancyNumber)
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            when (holder) {
+                is VacancyViewHolder -> {
+                    holder.bindPayload(payloads[0])
+                }
             }
         }
     }
@@ -67,15 +84,15 @@ class VacancyWithButtonAdapter(
 
 class VacancyViewHolder(
     private val binding: CardVacancyBinding,
-    private val onInteractionListener: VacancyOnInteractionListener
+    private val onInteractionListener: VacancyOnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(vacancy: VacancyDomain) {
         binding.apply {
             favouriteIcon.isChecked = vacancy.isFavorite
 
             val context = root.context
-
             if (vacancy.lookingNumber != null) {
+
                 val lookingNumber = vacancy.lookingNumber
                 val peopleWatchingText = context.resources.getQuantityString(
                     R.plurals.people_watching,
@@ -84,6 +101,8 @@ class VacancyViewHolder(
                 )
 
                 viewedBy.text = peopleWatchingText
+            } else {
+                viewedBy.text = null
             }
 
             title.text = vacancy.title
@@ -98,13 +117,19 @@ class VacancyViewHolder(
 
             root.setOnClickListener { onInteractionListener.onRoot(vacancy.id) }
             favouriteIcon.setOnClickListener { onInteractionListener.onFavoriteIcon(vacancy.id) }
-            button.setOnClickListener {  }
+            button.setOnClickListener { }
+        }
+    }
+
+    fun bindPayload(payload: Any?) {
+        if (payload is Boolean) {
+            binding.favouriteIcon.isChecked = payload
         }
     }
 }
 
 class ButtonViewHolder(
-    private val binding: ButtonBinding
+    private val binding: ButtonBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(buttonItem: ListItem.ButtonItem, vacancyNumber: Int) {
         val context = binding.root.context
@@ -124,7 +149,9 @@ class ButtonViewHolder(
 class VacancyDiffCallback : DiffUtil.ItemCallback<ListItem>() {
     override fun areContentsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
         return when {
-            oldItem is ListItem.VacancyItem && newItem is ListItem.VacancyItem -> oldItem.vacancy == newItem.vacancy
+            oldItem is ListItem.VacancyItem && newItem is ListItem.VacancyItem -> {
+                oldItem.vacancy == newItem.vacancy
+            }
             oldItem is ListItem.ButtonItem && newItem is ListItem.ButtonItem -> oldItem == newItem
             else -> false
         }
@@ -135,6 +162,18 @@ class VacancyDiffCallback : DiffUtil.ItemCallback<ListItem>() {
             oldItem is ListItem.VacancyItem && newItem is ListItem.VacancyItem -> oldItem.vacancy.id == newItem.vacancy.id
             oldItem is ListItem.ButtonItem && newItem is ListItem.ButtonItem -> oldItem == newItem
             else -> false
+        }
+    }
+
+    override fun getChangePayload(oldItem: ListItem, newItem: ListItem): Any? {
+        return when {
+            oldItem is ListItem.VacancyItem && newItem is ListItem.VacancyItem -> {
+                if (oldItem.vacancy.isFavorite != newItem.vacancy.isFavorite) {
+                    return newItem.vacancy.isFavorite
+                }
+                null
+            }
+            else -> null
         }
     }
 }
