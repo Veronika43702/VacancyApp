@@ -8,7 +8,6 @@ import javax.inject.Inject
 class ChangeVacancyRepositoryImpl @Inject constructor(
     private val vacancyDao: VacancyDao,
 ) : ChangeVacancyRepository {
-
     override suspend fun changeFavouriteState(id: UUID) {
         try {
             vacancyDao.changeFavouriteState(id)

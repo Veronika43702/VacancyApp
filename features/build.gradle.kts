@@ -1,16 +1,17 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+
     alias(libs.plugins.kotlinKsp)
     alias(libs.plugins.hilt.android.gradle.plugin)
 }
 
 android {
-    namespace = "ru.test.presentation"
+    namespace = "ru.test.features"
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 28
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -39,7 +40,6 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":features"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -48,7 +48,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

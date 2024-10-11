@@ -11,7 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import ru.test.presentation.ui.home.HomeViewModel
+import ru.test.features.ui.home.HomeViewModel
 import ru.test.presentation.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
