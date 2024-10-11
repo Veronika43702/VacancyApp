@@ -7,13 +7,16 @@
     android:background="@drawable/rounded_shape_1_8"
     android:clickable="true"
     android:layout_marginBottom="16dp"
+    android:focusable="true"
     android:padding="16dp">
 
     <ToggleButton
         android:id="@+id/favourite_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
         android:background="@null"
         android:drawableTop="@drawable/selector_favourite"
         app:layout_constraintEnd_toEndOf="parent"

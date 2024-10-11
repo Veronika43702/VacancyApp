@@ -12,11 +12,11 @@ import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ru.test.domain.models.VacancyDomain
 import ru.test.features.R
-import ru.test.features.adapter.ListItem
+import ru.test.features.adapter.vacancy.ListItem
 import ru.test.features.adapter.OfferAdapter
 import ru.test.features.adapter.OfferOnInteractionListener
-import ru.test.features.adapter.VacancyWithButtonAdapter
-import ru.test.features.adapter.VacancyOnInteractionListener
+import ru.test.features.adapter.vacancy.VacancyWithButtonAdapter
+import ru.test.features.adapter.vacancy.VacancyOnInteractionListener
 import ru.test.features.databinding.FragmentHomeBinding
 import java.util.UUID
 
@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         // список Vacancy
         val adapterVacancy = VacancyWithButtonAdapter(object : VacancyOnInteractionListener {
             override fun onRoot(id: UUID) {
-               // TODO
+                // TODO
             }
 
             override fun onFavoriteIcon(id: UUID) {
@@ -73,10 +73,12 @@ class HomeFragment : Fragment() {
                 vacancies.size,
                 vacancies.size
             )
+            if (vacancies.isNotEmpty()) {
+                                binding.backIcon.setOnClickListener {
+                    changeVisibility(true)
+                    setInitialListWithButton(adapterVacancy, vacancies)
+                }
 
-            adapterVacancy.setTotalVacancies(vacancies.size)
-
-            if (!isFavoriteChanged) {
                 if (!isExpanded) {
                     changeVisibility(true)
                     setInitialListWithButton(adapterVacancy, vacancies)
@@ -86,12 +88,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            binding.backIcon.setOnClickListener {
-                changeVisibility(true)
-                setInitialListWithButton(adapterVacancy, vacancies)
-            }
-
-            isFavoriteChanged = false
+            //isFavoriteChanged = false
         }
 
         return root
@@ -117,7 +114,7 @@ class HomeFragment : Fragment() {
         vacancies: List<VacancyDomain>,
     ) {
         val initialList = vacancies.take(3).map { ListItem.VacancyItem(it) } +
-                listOf(ListItem.ButtonItem {
+                listOf(ListItem.ButtonItem(vacancies.size) {
                     isExpanded = true
 
                     changeVisibility(false)

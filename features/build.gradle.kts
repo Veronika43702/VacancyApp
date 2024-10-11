@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.hannesdorfmann.adapterdelegates4)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
